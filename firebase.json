@@ -1,0 +1,38 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flamesound-540b8",
+          "appId": "1:42132724270:android:2554548e49945d0f42ddbf",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flamesound-540b8",
+          "configurations": {
+            "android": "1:42132724270:android:2554548e49945d0f42ddbf",
+            "ios": "1:42132724270:ios:99f85b04b1d354bc42ddbf",
+            "macos": "1:42132724270:ios:99f85b04b1d354bc42ddbf",
+            "web": "1:42132724270:web:7e7f8160120ec24342ddbf",
+            "windows": "1:42132724270:web:cea590aaf393550a42ddbf"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}
