@@ -43,3 +43,39 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# ────────────────────────────────────────────────────────────────
+# Adições recomendadas (não remova nada acima)
+# ────────────────────────────────────────────────────────────────
+
+# Ignora toda a pasta build (o mais importante para evitar arquivos grandes)
+build/
+
+# Ignora especificamente as pastas pesadas do Android que causaram o erro
+android/app/build/
+android/.gradle/
+android/local.properties
+android/key.properties
+
+# Arquivos de cache e temporários do Gradle/Android
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Arquivos gerados pelo Flutter run/build
+flutter_export_environment.sh
+Generated.xcconfig
+GeneratedPluginRegistrant.*
+
+# Arquivos de keystore e secrets (nunca commitar)
+*.jks
+*.keystore
+keystore.properties
+
+# Arquivos de ambiente e chaves secretas
+.env
+.env.local
+.env.development
+.env.production
+*.env.*
