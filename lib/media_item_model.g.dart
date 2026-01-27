@@ -23,13 +23,14 @@ class MediaItemModelAdapter extends TypeAdapter<MediaItemModel> {
       artUri: fields[3] as String?,
       durationMs: fields[4] as int?,
       filePath: fields[5] as String,
+      streamUrl: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MediaItemModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class MediaItemModelAdapter extends TypeAdapter<MediaItemModel> {
       ..writeByte(4)
       ..write(obj.durationMs)
       ..writeByte(5)
-      ..write(obj.filePath);
+      ..write(obj.filePath)
+      ..writeByte(6)
+      ..write(obj.streamUrl);
   }
 
   @override

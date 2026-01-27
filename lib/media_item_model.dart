@@ -24,6 +24,9 @@ class MediaItemModel extends HiveObject {
   @HiveField(5)
   String filePath;
 
+  @HiveField(6)
+  String? streamUrl;
+
   MediaItemModel({
     required this.id,
     required this.title,
@@ -31,6 +34,7 @@ class MediaItemModel extends HiveObject {
     this.artUri,
     this.durationMs,
     required this.filePath,
+    this.streamUrl,
   });
 
   /// Converte MediaItem → Hive
@@ -41,6 +45,7 @@ class MediaItemModel extends HiveObject {
         artUri: item.artUri?.toString(),
         durationMs: item.duration?.inMilliseconds,
         filePath: item.extras?['filePath'] ?? '',
+        streamUrl: item.extras?['streamUrl'],
       );
 
   /// Converte Hive → MediaItem
@@ -53,6 +58,7 @@ class MediaItemModel extends HiveObject {
             durationMs != null ? Duration(milliseconds: durationMs!) : null,
         extras: {
           'filePath': filePath, // 🔑 ESSENCIAL
+          'streamUrl': streamUrl,
         },
       );
 }

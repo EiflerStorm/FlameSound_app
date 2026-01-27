@@ -249,7 +249,7 @@ void _loadFromHive() async {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddSongScreen()),
+            MaterialPageRoute(builder: (context) => AddSongScreen(audioHandler: widget.audioHandler)),
           );
         },
         backgroundColor: Colors.orange.shade800,
