@@ -37,6 +37,19 @@ class MyAudioHandler extends BaseAudioHandler {
     });
   }
 
+  AudioSource _audioSourceForMediaItem(MediaItem item) {
+    final streamUrl = item.extras?['streamUrl'];
+    if (streamUrl != null && streamUrl.toString().isNotEmpty) {
+      return AudioSource.uri(Uri.parse(streamUrl.toString()), tag: item);
+    }
+
+    final path = item.extras?['filePath'];
+    if (path == null || path.isEmpty) {
+      throw Exception('Fonte de áudio ausente no MediaItem');
+    }
+    return AudioSource.file(path, tag: item);
+  }
+
   PlaybackState _transformEvent(PlaybackEvent event) {
     return PlaybackState(
       controls: [
@@ -74,16 +87,27 @@ class MyAudioHandler extends BaseAudioHandler {
 
     _playlist = ConcatenatingAudioSource(
       children: mediaItems.map((item) {
-        final path = item.extras?['filePath'];
-        if (path == null || path.isEmpty) {
-          throw Exception('filePath ausente no MediaItem');
-        }
-        return AudioSource.file(path, tag: item);
+        return _audioSourceForMediaItem(item);
       }).toList(),
     );
 
     await _player.setAudioSource(_playlist!);
 
+    _isUpdatingQueue = false;
+  }
+
+  @override
+  Future<void> addQueueItem(MediaItem mediaItem) async {
+    if (_playlist == null) {
+      await addQueueItems([mediaItem]);
+      return;
+    }
+
+    _isUpdatingQueue = true;
+    final updatedQueue = [...queue.value, mediaItem];
+    queue.add(updatedQueue);
+    _originalQueue = List.from(updatedQueue);
+    await _playlist!.add(_audioSourceForMediaItem(mediaItem));
     _isUpdatingQueue = false;
   }
 
@@ -160,10 +184,11 @@ class MyAudioHandler extends BaseAudioHandler {
   Future<void> updateQueue(List<MediaItem> newQueue) async {
     _isUpdatingQueue = true;
     queue.add(newQueue);
+    _originalQueue = List.from(newQueue);
 
     _playlist = ConcatenatingAudioSource(
       children: newQueue.map((item) {
-        return AudioSource.file(item.extras!['filePath'], tag: item);
+        return _audioSourceForMediaItem(item);
       }).toList(),
     );
 
